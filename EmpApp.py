@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pymysql import connections
 import os
 import boto3
+import logging
 from config import *
 
 app = Flask(__name__)
@@ -13,6 +14,7 @@ region = customregion
 output = {}
 table = 'employee'
 
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -73,7 +75,6 @@ def AddEmp():
 
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
     cursor = db_conn.cursor()
-
     # if emp_image_file.filename == "":
     #     return "Please select a file"
 
@@ -107,9 +108,10 @@ def AddEmp():
 
     except Exception as e:
         print(e)
+        logging.info(msg=e);
 
     finally:
-        print("Entry Done")
+        print("finally")
 
     cursor.execute("select * from employee")
     data = cursor.fetchall()  # data from database
@@ -118,4 +120,4 @@ def AddEmp():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='localhost', port=80, debug=True)
