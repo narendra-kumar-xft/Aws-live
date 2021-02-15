@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 
 table {
@@ -19,7 +23,59 @@ tr:nth-child(even) {
   background-color: ;
 }
 
+th:hover {
+    cursor: pointer;
+}
+
 </style>
+
+<script type="text/javascript">
+  function exportData(){
+    /* Get the HTML data using Element by Id */
+    var table = document.getElementById("myTable");
+
+    /* Declaring array variable */
+    var rows =[];
+
+      //iterate through rows of table
+    for(var i=0,row; row = table.rows[i];i++){
+        //rows would be accessed using the "row" variable assigned in the for loop
+        //Get each cell value/column from the row
+        column1 = row.cells[0].innerText;
+        column2 = row.cells[1].innerText;
+        column3 = row.cells[2].innerText;
+        column4 = row.cells[3].innerText;
+        column5 = row.cells[4].innerText;
+
+    /* add a new records in the array */
+        rows.push(
+            [
+                column1,
+                column2,
+                column3,
+                column4,
+                column5
+            ]
+        );
+
+        }
+        csvContent = "data:text/csv;charset=utf-8,";
+         /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
+        rows.forEach(function(rowArray){
+            row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+
+        /* create a hidden <a> DOM node and set its download attribute */
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "Export.csv");
+        document.body.appendChild(link);
+         /* download the data file named "Stock_Price_Report.csv" */
+        link.click();
+}
+  </script>
 
 <head>
     <meta charset="UTF-8">
@@ -30,43 +86,46 @@ tr:nth-child(even) {
             <h1 style="color: Black">Cloud Certification Summary for MIS</h1>
 
 
+          <form action="/showaddemp">
+                        <button type="submit"
+                                style="cursor:pointer; background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">Add New Certification
+                        </button>
+                    </form>
+
+            <br>
+
+
 <body style="background-image: url('/static/bg4.jpg');background-size: 100%;" >
 
 <form action="/viewSummary" autocomplete="on" method="POST" enctype="multipart/form-data">
 
-    <table>
+    <table id="myTable">
         <tr>
-            <th>FMNO</th>
-            <th>Name</th>
-            <th>Team</th>
-            <th>Location</th>
-            <th>Certificate</th>
+            <th style="cursor:default;">FMNO</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(2)')">Name<i class="fa fa-sort"></i></th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(3)')">Team<i class="fa fa-sort"></i></th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(4)')">Location<i class="fa fa-sort"></i></th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(5)')">Certificate<i class="fa fa-sort"></i></th>
         </tr>
 
-
         {% for item in value %}
-<tr>
-    <td>{{item[0]}}</td>
-    <td>{{item[1]}}</td>
-    <td>{{item[2]}}</td>
-    <td>{{item[3]}}</td>
-    <td>{{item[4]}}</td>
-
-</tr>
-{% endfor %}
+        <tr class="item">
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            <td>{{item[3]}}</td>
+            <td>{{item[4]}}</td>
+        </tr>
+        {% endfor %}
 
     </table>
-    <br><br>
+
 
 </form>
 
+<br>
 
-<form action="/showaddemp">
-    <button type="submit"
-            style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">Add Certification
-    </button>
-</form>
-
+ <button id="btnExport" style="cursor:pointer;background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;" onclick="exportData();">Export</button>
 
 </body>
 
