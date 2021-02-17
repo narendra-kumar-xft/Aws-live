@@ -27,6 +27,10 @@ th:hover {
     cursor: pointer;
 }
 
+.clear {
+    clear: both;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -83,21 +87,34 @@ th:hover {
     <center>
         <font color="black" size="4" style="font-family: avenir">
 
-            <h1 style="color: Black">Cloud Certification Summary for MIS</h1>
+            <h1 style="color: Black"><u>Cloud Certification Summary for MIS</u></h1>
 
 
-          <form action="/showaddemp">
-                        <button type="submit"
-                                style="cursor:pointer; background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">Add New Certification
-                        </button>
-                    </form>
-
-            <br>
 
 
 <body style="background-image: url('/static/bg4.jpg');background-size: 100%;" >
 
 <form action="/viewSummary" autocomplete="on" method="POST" enctype="multipart/form-data">
+
+
+    <div style="width:auto;">
+                <div style="float: left; ">
+                    <form action="/showaddemp">
+                        <button type="submit"
+                                style="cursor:pointer; background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;"> <i class="fa fa-plus"></i> Add New Entry
+                        </button>
+                    </form>
+                </div>
+                <div style="float: right; ">
+                    <button id="btnExport" style="cursor:pointer;background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;" onclick="exportData();">Export</button>
+                </div>
+            </div>
+
+    <div class="clear"></div>
+
+            <br/>
+
+
 
     <table id="myTable">
         <tr>
@@ -124,8 +141,6 @@ th:hover {
 </form>
 
 <br>
-
- <button id="btnExport" style="cursor:pointer;background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;" onclick="exportData();">Export</button>
 
 </body>
 
